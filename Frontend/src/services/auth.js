@@ -1,13 +1,8 @@
 import http from "./httpServices";
 
-export const authentification = async (USER_TOKEN) => {
-  const AuthStr = "Bearer ".concat(USER_TOKEN);
-
-  let response = await http.get("http://localhost:3000/api/auth", {
-    headers: { Authorization: AuthStr },
+export const authenticationFromApi = (user, password) => {
+  return http.post("http://localhost:3000/api/auth", {
+    user: user,
+    password: password,
   });
-
-  let data = response.data;
-  console.log(data);
-  return data;
 };

@@ -7,7 +7,7 @@ axios.interceptors.response.use(
     if (data.success) {
       return data.payload;
     } else {
-      throw new Error("api requiest error");
+      throw new Error("api request error");
     }
   },
   (error) => {
