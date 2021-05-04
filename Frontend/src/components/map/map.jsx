@@ -12,8 +12,8 @@ function Map() {
   const API_KEY = "AIzaSyCJ3FMs16Nk-7_tE7RclqD3sfSsHOpKCUU";
 
   const [viewPort, setViewPort] = useState({
-    latitude: 48.7758,
-    longitude: 9.1829,
+    latitude: 43.15849,
+    longitude: -77.59431,
     zoom: 10,
     width: "100vw",
     height: "100vh",
@@ -22,16 +22,20 @@ function Map() {
   const getCoordinates = (account) => {
     let address =
       account.shipping_address_street +
+      " " +
       account.shipping_address_city +
+      " " +
       account.shipping_address_state +
+      " " +
       account.shipping_address_postalcode +
+      " " +
       account.shipping_address_country;
-
+    console.log(address);
     if (address != "") {
       if (API_KEY) {
         let _fire = fetch(
           "https://api.mapbox.com/geocoding/v5/mapbox.places/" +
-            "321 University Ave. Cupertino NY 93207 USA" +
+            address +
             ".json?access_token=" +
             process.env.REACT_APP_MAPBOX_TOKEN
         );
@@ -96,8 +100,8 @@ function Map() {
         {accounts.map((account, index) => (
           <Marker
             key={index}
-            latitude={account.coordinates[0]}
-            longitude={account.coordinates[1]}
+            latitude={account.coordinates[1]}
+            longitude={account.coordinates[0]}
           >
             <button
               className="marker-btn"
@@ -106,22 +110,22 @@ function Map() {
                 setSelectedAccount(account);
               }}
             >
-              here
+              <img src="/team.svg" alt="Skate Park Icon" />
             </button>
           </Marker>
         ))}
 
         {selectedAccount ? (
           <Popup
-            latitude={1}
-            longitude={1}
+            latitude={selectedAccount.coordinates[1]}
+            longitude={selectedAccount.coordinates[0]}
             onClose={() => {
               setSelectedAccount(null);
             }}
           >
             <div>
               <h2>{selectedAccount.account.name}</h2>
-              <p>{selectedAccount.coordinates[0]}</p>
+              <p>{selectedAccount.account.industry}</p>
             </div>
           </Popup>
         ) : null}
