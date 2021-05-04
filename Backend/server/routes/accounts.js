@@ -4,9 +4,8 @@ const accounts = require("../../service/accounts");
 
 router.get("/", async (req, res) => {
   try {
-    const result = accounts.getAccounts(jwt);
-    console.log(jwt);
-    res.status(200).send(result);
+    const result = await accounts.getAccounts(req.body.jwt);
+    return res.status(200).send(result);
   } catch {
     return res.status(400).send("something went wrong");
   }

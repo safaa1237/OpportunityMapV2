@@ -1,28 +1,14 @@
-const https = require("https");
+const axios = require("axios");
 
-module.exports.getAccounts = function (jwt) {
-  const options = {
-    hostname: "test-90.mycrmspace.de",
-    port: 443,
-    path: "/rest/v11_8/Accounts",
-    method: "GET",
-    headers: {
-      Authorization: "Bearer" + jwt,
-      "Content-Type": "application/json",
-    },
-  };
+module.exports.getAccounts = async function (USER_TOKEN) {
+  const AuthStr = "Bearer ".concat(USER_TOKEN);
 
-  const req = https.request(options, (res) => {
-    console.log(`statusCode: ${res.statusCode}`);
+  let response = await axios.get(
+    "https://test-90.mycrmspace.de/rest/v11_8/Accounts",
+    { headers: { Authorization: AuthStr } }
+  );
 
-    res.on("data", (d) => {
-      return d;
-    });
-  });
-
-  req.on("error", (error) => {
-    console.error(error);
-  });
-
-  req.end();
+  let data = response.data;
+  console.log(data);
+  return data;
 };

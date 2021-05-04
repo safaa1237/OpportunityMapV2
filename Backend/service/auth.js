@@ -1,38 +1,18 @@
-const https = require("https");
+const axios = require("axios");
 
-module.exports.authentification = function (user, password) {
-  const data = JSON.stringify({
+module.exports.authentification = async function (user, password) {
+  payload = {
     grant_type: "password",
     client_id: "sugar",
     client_secret: "",
     username: user,
     password: password,
     platform: "base",
-  });
-
-  const options = {
-    hostname: "test-90.mycrmspace.de",
-    port: 443,
-    path: "/rest/v11_8/oauth2/token",
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Content-Length": data.length,
-    },
   };
-
-  const req = https.request(options, (res) => {
-    console.log(`statusCode: ${res.statusCode}`);
-
-    res.on("data", (d) => {
-      process.stdout.write(d);
-    });
-  });
-
-  req.on("error", (error) => {
-    console.error(error);
-  });
-
-  req.write(data);
-  req.end();
+  let response = await axios.post(
+    "https://test-90.mycrmspace.de/rest/v11_8/oauth2/token",
+    payload
+  );
+  let USER_TOKEN = response.data;
+  return USER_TOKEN;
 };
