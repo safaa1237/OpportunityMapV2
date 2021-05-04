@@ -14,7 +14,7 @@ function Authentication(props) {
       let result = await authenticationFromApi(userName, password);
       console.log(result);
       State.updateUserName(userName);
-      State.updateAccesToken(result);
+      State.updateAccessToken(result);
       props.history.push("/map");
     } catch {
       alert("please enter a correct user name and password");

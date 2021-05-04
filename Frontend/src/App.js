@@ -5,20 +5,22 @@ import Authentication from "./components/authentification/authentification";
 import Map from "./components/map/map";
 
 function App() {
-  const [userName, setUserName] = useState("hi");
-  const [accessToken, setAccessToken] = useState(null);
+  const [userName, setUserName] = useState("");
+  const [accessToken, setAccessToken] = useState(
+    "86c4fccc-561e-4631-8742-a3a93a8e76c8"
+  );
 
   const updateUserName = (name) => {
     setUserName(name);
   };
-  const updateAccesToken = (token) => {
+  const updateAccessToken = (token) => {
     setAccessToken(token);
   };
   const initialState = {
     userName,
     updateUserName,
     accessToken,
-    updateAccesToken,
+    updateAccessToken,
   };
 
   return (
