@@ -8,6 +8,7 @@ function Map() {
   const State = useContext(UserContext);
   const [accounts, setAccounts] = useState([]);
   const [selectedAccount, setSelectedAccount] = useState(null);
+  const [maxOpp, setmaxOpp] = useState(15);
 
   const API_KEY = "AIzaSyCJ3FMs16Nk-7_tE7RclqD3sfSsHOpKCUU";
 
@@ -53,7 +54,7 @@ function Map() {
   const getData = async () => {
     console.log(State.accessToken);
     let result = await getAccountsFromApi(State.accessToken);
-    let records = result.records.slice(1, 15);
+    let records = result.records.slice(1, maxOpp);
     return records;
   };
 
@@ -66,6 +67,10 @@ function Map() {
     });
     console.log(locations);
     return locations;
+  };
+
+  const handleChangeInput = (e) => {
+    setmaxOpp(e.target.value);
   };
 
   const getOpportonities = async () => {
@@ -88,6 +93,10 @@ function Map() {
     };
   }, []);
 
+  useEffect(() => {
+    getOpportonities();
+  }, [maxOpp]);
+
   return (
     <div>
       <ReactMapGL
@@ -97,6 +106,11 @@ function Map() {
           setViewPort(viewPort);
         }}
       >
+        <input
+          onChange={(e) => {
+            handleChangeInput(e);
+          }}
+        ></input>
         {accounts.map((account, index) => (
           <Marker
             key={index}
